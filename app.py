@@ -258,6 +258,7 @@ def predict():
     mean_iou, iou_details = IoU(y_predi, mask)
 
     copyfile("/dataset/val/img/" + filenames[image_id], "static/temp/" + filenames[image_id])
+    
     return jsonify(
         image_orig="static/temp/" + filenames[image_id],
         image_mask=converted_mask_file,

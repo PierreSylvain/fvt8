@@ -14,6 +14,7 @@ from azureml.core.authentication import ServicePrincipalAuthentication
 import os
 
 
+
 # This is a flask application
 app = Flask(__name__)
 
@@ -171,6 +172,7 @@ def load_data(image_file, height, width):
     masks.append(array_mask)
 
     return np.array(images), np.array(masks)
+
 
 
 def convert_mask(mask):

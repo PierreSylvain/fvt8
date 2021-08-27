@@ -1,5 +1,4 @@
 from flask import Flask, redirect, url_for, render_template, request, jsonify
-#from keras.models import model_from_json
 from os import walk
 import numpy as np
 from tensorflow.python.keras.preprocessing import image

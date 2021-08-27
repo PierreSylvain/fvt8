@@ -12,7 +12,7 @@ from azureml.core.model import Model
 from keras import backend as K
 from azureml.core.authentication import ServicePrincipalAuthentication
 import os
-
+from shutil import copyfile
 
 
 # This is a flask application
@@ -257,8 +257,9 @@ def predict():
     # Get IoU (global IoU mean and IoU by category)
     mean_iou, iou_details = IoU(y_predi, mask)
 
+    copyfile("/dataset/val/img/" + filenames[image_id], "static/temp/" + filenames[image_id])
     return jsonify(
-        image_orig="/dataset/val/img/" + filenames[image_id],
+        image_orig="static/temp/" + filenames[image_id],
         image_mask=converted_mask_file,
         image_pred=pred_mask,
         accuracy=score[1],

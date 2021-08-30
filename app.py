@@ -196,25 +196,6 @@ def convert_mask(mask):
 
 
 def do_prediction(image, mask):
-
-    
-    svc_pr_password = os.environ.get("AZUREML_PASSWORD")
-        
-    svc_pr = ServicePrincipalAuthentication(
-        tenant_id="b4d62547-d4ad-4e2d-bbf9-1a33f92310fd",
-        service_principal_id="07ea66c7-c56b-471e-b8a3-7a2c37d6c786",
-        service_principal_password=svc_pr_password)
-
-    ws = Workspace(
-        subscription_id="37490abd-eac8-4845-b5b1-90d998dd6319",
-        resource_group="oc-grp",
-        workspace_name="fvtp8",
-        auth=svc_pr
-    )
-
-    model = Model(ws, 'future-vision-transport')
-    model.download(target_dir='.', exist_ok=True)
-
     loaded_model = keras.models.load_model('save_model/save_model/unet', custom_objects={
         'iou_coef': iou_coef,
         'dice_coef': dice_coef,
@@ -231,6 +212,7 @@ def do_prediction(image, mask):
 def index():
     """ start request"""
     file_count = len(filenames)
+
     return render_template("index.html", file_count=file_count)
 
 
@@ -271,4 +253,20 @@ def predict():
 
 # main
 if __name__ == "__main__":
+    svc_pr_password = os.environ.get("AZUREML_PASSWORD")
+        
+    svc_pr = ServicePrincipalAuthentication(
+        tenant_id="b4d62547-d4ad-4e2d-bbf9-1a33f92310fd",
+        service_principal_id="07ea66c7-c56b-471e-b8a3-7a2c37d6c786",
+        service_principal_password=svc_pr_password)
+
+    ws = Workspace(
+        subscription_id="37490abd-eac8-4845-b5b1-90d998dd6319",
+        resource_group="oc-grp",
+        workspace_name="fvtp8",
+        auth=svc_pr
+    )
+
+    model = Model(ws, 'future-vision-transport')
+    model.download(target_dir='.', exist_ok=True)
     app.run(debug=True)
